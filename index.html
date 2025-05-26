@@ -354,11 +354,18 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            console.log("JavaScript DOMContentLoaded 이벤트 발생."); // JS 실행 확인 메시지
             const navLinks = document.querySelectorAll('#mainNav .nav-link');
             const contentSections = document.querySelectorAll('.content-section');
             const termCards = document.querySelectorAll('.term-card');
             const weekLists = document.querySelectorAll('.week-list');
-            const weekCards = document.querySelectorAll('.week-card'); // New: Select all week cards
+            const weekCards = document.querySelectorAll('.week-card');
+
+            // 페이지 로드 시 모든 상세 내용이 숨겨져 있는지 다시 한번 확인 (강력 새로고침 대비)
+            document.querySelectorAll('.session-detail').forEach(detail => {
+                detail.classList.remove('active'); // active 클래스 제거
+            });
+            console.log("초기 로드 시 모든 상세 내용이 숨겨졌는지 확인."); // 초기 상태 확인 메시지
 
             // Function to show a specific section and update active nav link
             function showSection(targetId) {
@@ -403,42 +410,46 @@
                 card.addEventListener('click', function () {
                     const term = this.getAttribute('data-term');
                     const weekList = document.getElementById(term + '-weeks');
+                    console.log(`기수 카드 클릭됨: ${term}, 주차 목록 요소:`, weekList); // 디버깅 메시지
                     if (weekList) {
-                        // Close all other week lists
+                        // 다른 기수의 주차 목록 닫기
                         weekLists.forEach(list => {
                             if (list.id !== (term + '-weeks')) {
                                 list.classList.remove('active');
+                                console.log(`다른 주차 목록 닫음: ${list.id}`); // 디버깅 메시지
                             }
                         });
-                        // Toggle current week list
+                        // 현재 기수의 주차 목록 토글
                         weekList.classList.toggle('active');
+                        console.log(`현재 주차 목록 상태: ${weekList.classList.contains('active') ? '열림' : '닫힘'}`); // 디버깅 메시지
 
-                        // Optionally, close any open session details when a new term is opened/closed
+                        // 새로운 기수 목록이 열리거나 닫힐 때, 모든 주차 상세 내용을 닫기
                         document.querySelectorAll('.session-detail').forEach(detail => {
                             detail.classList.remove('active');
+                            console.log(`기수 변경으로 상세 내용 닫음: ${detail.id}`); // 디버깅 메시지
                         });
                     }
                 });
             });
 
-            // New: Week card click handler to toggle session details
+            // Week card click handler to toggle session details
             weekCards.forEach(card => {
                 card.addEventListener('click', function () {
                     const sessionId = this.getAttribute('data-session-id');
                     const detailElement = document.getElementById(sessionId + '-detail');
-                    console.log(`클릭된 주차: ${sessionId}, 상세 내용 요소:`, detailElement); // 디버깅 메시지 추가
+                    console.log(`클릭된 주차 카드: ${sessionId}, 상세 내용 요소:`, detailElement); // 디버깅 메시지
                     if (detailElement) {
-                        // Close all other session details in this term
-                        // (Optional: if you want to close details from other terms, you'd need a broader selector)
+                        // 현재 주차 목록 내의 다른 상세 내용 닫기
+                        // (다른 기수의 상세 내용까지 닫으려면 더 넓은 선택자가 필요)
                         detailElement.parentElement.querySelectorAll('.session-detail').forEach(detail => {
                             if (detail.id !== (sessionId + '-detail')) {
                                 detail.classList.remove('active');
-                                console.log(`다른 상세 내용 닫음: ${detail.id}`); // 디버깅 메시지 추가
+                                console.log(`다른 주차 상세 내용 닫음: ${detail.id}`); // 디버깅 메시지
                             }
                         });
-                        // Toggle current session detail
+                        // 현재 주차 상세 내용 토글
                         detailElement.classList.toggle('active');
-                        console.log(`현재 상세 내용 상태: ${detailElement.classList.contains('active') ? '열림' : '닫힘'}`); // 디버깅 메시지 추가
+                        console.log(`현재 주차 상세 내용 상태: ${detailElement.classList.contains('active') ? '열림' : '닫힘'}`); // 디버깅 메시지
                     }
                 });
             });
