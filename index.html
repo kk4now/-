@@ -7,21 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Application Structure Plan:
         - Designed interactive structure: A single-page application (SPA) with a fixed top navigation bar. Content for different "pages" (Home, Study Sessions, About Yeobaek) is dynamically loaded and displayed within the main content area using JavaScript.
-        - Key interactions: Clicking navigation links will smoothly scroll to the corresponding section or dynamically show/hide content blocks. Term cards toggle week list visibility. Week cards toggle individual session detail visibility.
+        - Key interactions: Clicking navigation links will smoothly scroll to the corresponding section or dynamically show/hide content blocks. Session cards toggle individual session detail visibility.
         - User flow: Users can easily navigate between thematic sections. Within Study Sessions, they first select a term, then select a specific week to view its detailed feedback.
-        - WHY this structure was chosen for usability: This SPA approach provides a seamless, fast loading experience. The fixed navigation ensures easy access to all main sections. The nested interactive structure (term -> week -> detail) provides a clear, organized way to access study content, giving the user control over what information is displayed and when, preventing information overload.
+        - WHY this structure was chosen for usability: This SPA approach provides a seamless, fast loading experience. The fixed navigation ensures easy access to all main sections. Grouping related content into distinct sections enhances readability and information hierarchy, making complex information digestible. It aligns with the user's vision of a central hub for their study group.
     -->
     <!-- Visualization & Content Choices:
-        - Report Info: Home Page Introduction -> Goal: Inform/Engage -> Viz/Presentation Method: Welcome text, core philosophy -> Interaction: None -> Justification: Set the tone and introduce the study's core identity -> Library/Method: HTML/CSS.
-        - Report Info: Study Sessions by Term and Week -> Goal: Organize/Inform -> Viz/Presentation Method: Term cards that expand to show week cards, which then expand to show detailed session feedback -> Interaction: Clicks to toggle visibility at both term and week levels -> Justification: Provides a structured, multi-level access to past content by term and then by week, giving users granular control over content display.
-        - Report Info: About Yeobaek (Study Philosophy, Activities) -> Goal: Inform/Define -> Viz/Presentation Method: Thematic text blocks, activity descriptions -> Interaction: None -> Justification: Clearly articulate the study's unique identity and focus, excluding personal details -> Library/Method: HTML/CSS.
-        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. NO Chart.js or Plotly.js used (as per user's last request).
+        - Report Info: Home Page Introduction -> Goal: Inform/Engage -> Viz/Presentation Method: Welcome text, core philosophy -> Interaction: None -> Justification: Set the tone and introduce the study -> Library/Method: HTML/CSS.
+        - Report Info: Study Sessions List (including 5th week summary) -> Goal: Organize/Inform -> Viz/Presentation Method: List of session cards, expandable detail for 5th week -> Interaction: Click to toggle detail visibility -> Justification: Provide structured access to past content -> Library/Method: HTML/CSS/JS.
+        - Report Info: About Yeobaek (Philosophy, User's Background, Vision) -> Goal: Inform/Inspire -> Viz/Presentation Method: Thematic text blocks, key vision points -> Interaction: None -> Justification: Convey core values and future aspirations -> Library/Method: HTML/CSS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. NO Chart.js or Plotly.js used.
     -->
     <style>
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-            background-color: #F9F7F5; /* Main background: very light beige-grey */
-            color: #3A3A3A; /* Darker grey for primary text */
+            background-color: #FDFBF7; /* Very light warm beige */
+            color: #4A4A4A; /* Dark warm gray */
             scroll-behavior: smooth;
         }
         .sticky-nav {
@@ -30,50 +30,50 @@
             z-index: 50;
             background-color: rgba(255, 255, 255, 0.9); /* White with slight transparency */
             backdrop-filter: blur(8px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .nav-link {
-            color: #3A3A3A; /* Dark grey */
+            color: #4A4A4A; /* Dark warm gray */
             transition: color 0.3s ease, border-bottom-color 0.3s ease;
             border-bottom: 2px solid transparent;
         }
         .nav-link:hover {
-            color: #8C7C6D; /* Main accent color */
+            color: #A87C5A; /* Soft terracotta */
         }
         .nav-link.active {
-            color: #8C7C6D; /* Main accent color */
+            color: #A87C5A; /* Soft terracotta */
             font-weight: 600; /* semibold */
-            border-bottom-color: #8C7C6D;
+            border-bottom-color: #A87C5A;
         }
         .section-title {
             font-size: 2.25rem; /* text-4xl */
             font-weight: 700; /* font-bold */
-            color: #8C7C6D; /* Main accent color for titles */
+            color: #A87C5A; /* Soft terracotta */
             margin-bottom: 2rem; /* mb-8 */
             padding-bottom: 0.75rem; /* pb-3 */
-            border-bottom: 2px solid #B8A99B; /* Secondary accent for border */
+            border-bottom: 2px solid #D4BBAA; /* Lighter terracotta accent */
             text-align: center;
         }
         .card {
-            background-color: #FFFFFF; /* White for cards */
+            background-color: #FFFFFF; /* White */
             border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06); /* Softer shadow */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Softer shadow */
             padding: 2.5rem; /* p-10 */
             margin-bottom: 3rem; /* mb-12 */
         }
         .highlight-quote {
             font-size: 1.5rem; /* text-2xl */
             font-weight: 600; /* font-semibold */
-            color: #8C7C6D; /* Main accent color */
+            color: #A87C5A; /* Soft terracotta */
             padding: 1.5rem;
-            background-color: #F9F7F5; /* Page background for contrast */
-            border-left: 4px solid #8C7C6D;
+            background-color: #FDFBF7; /* Page background for contrast */
+            border-left: 4px solid #A87C5A;
             margin: 1.5rem 0;
         }
         .flow-diagram-step {
-            background-color: #F1EDEA; /* Lighter shade of main background */
-            border: 1px solid #B8A99B; /* Secondary accent for border */
-            color: #3A3A3A;
+            background-color: #F8F3ED; /* Very light terracotta */
+            border: 1px solid #D4BBAA; /* Lighter terracotta accent */
+            color: #4A4A4A;
             padding: 0.75rem 1rem; /* p-3 p-4 */
             border-radius: 0.5rem; /* rounded-lg */
             text-align: center;
@@ -81,20 +81,20 @@
         }
         .flow-diagram-arrow {
             font-size: 1.5rem; /* text-2xl */
-            color: #8C7C6D; /* Main accent color */
+            color: #A87C5A;
             margin: 0.25rem 0; /* my-1 */
             text-align: center;
         }
         h3 {
             font-size: 1.75rem; /* text-3xl */
             font-weight: 600; /* font-semibold */
-            color: #3A3A3A;
+            color: #4A4A4A;
             margin-bottom: 1.25rem; /* mb-5 */
         }
         h4 {
             font-size: 1.25rem; /* text-xl */
             font-weight: 600; /* font-semibold */
-            color: #8C7C6D; /* Main accent for sub-subheadings */
+            color: #A87C5A; /* Soft terracotta for sub-subheadings */
             margin-top: 1.5rem; /* mt-6 */
             margin-bottom: 0.75rem; /* mb-3 */
         }
@@ -107,18 +107,18 @@
         }
         strong {
             font-weight: 600; /* semibold */
-            color: #8C7C6D; /* Main accent color */
+            color: #A87C5A;
         }
         table {
             border-collapse: collapse; /* Ensures borders are clean */
         }
         th, td {
-            border: 1px solid #EAE0D8; /* Light grey for table borders */
+            border: 1px solid #EAE0D8; /* Light warm gray for table borders */
             padding: 0.75rem; /* p-3 */
             text-align: left;
         }
         thead th {
-            background-color: #F1EDEA; /* Lighter shade for table header */
+            background-color: #F8F3ED; /* Very light terracotta for table header */
             font-weight: 600;
         }
         .content-section {
@@ -127,42 +127,37 @@
         .content-section.active {
             display: block; /* Shown when active */
         }
-        /* New styles for term and week cards */
-        .term-card, .week-card {
-            background-color: #F1EDEA; /* Lighter shade for cards */
-            border: 1px solid #B8A99B; /* Secondary accent for border */
+        .session-card {
+            background-color: #F8F3ED;
+            border: 1px solid #D4BBAA;
             border-radius: 0.5rem;
             padding: 1.5rem;
             margin-bottom: 1rem;
             cursor: pointer;
             transition: background-color 0.2s ease, box-shadow 0.2s ease;
         }
-        .term-card:hover {
-            background-color: #E8E0DA; /* Slightly darker hover for term cards */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        .session-card:hover {
+            background-color: #F0E8DD;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        .week-list {
+        .session-detail {
             display: none;
-            padding-left: 1.5rem;
-            margin-top: 1rem;
-        }
-        .week-list.active {
-            display: block;
-        }
-        .session-card {
             background-color: #FFFFFF;
             border: 1px solid #EAE0D8;
             border-radius: 0.5rem;
             padding: 1.5rem;
-            margin-bottom: 1rem;
+            margin-top: 1rem;
+        }
+        .session-detail.active {
+            display: block;
         }
     </style>
 </head>
 <body class="antialiased">
-    <header class="bg-8C7C6D py-12 text-center shadow-md">
-        <h1 class="text-5xl md:text-6xl font-bold text-F9F7F5">프로젝트 여백</h1>
-        <p class="text-2xl md:text-3xl mt-4 opacity-90 text-F9F7F5">연기, 철학, 그리고 성장을 위한 공간</p>
-    </header>
+   <header class="bg-A87C5A py-12 text-center shadow-md">
+    <h1 class="text-5xl md:text-6xl font-bold text-4A4A4A">프로젝트 여백</h1>
+    <p class="text-2xl md:text-3xl mt-4 opacity-90 text-FDFBF7">연기, 철학, 그리고 성장을 위한 공간</p>
+</header>
 
     <nav id="mainNav" class="sticky-nav">
         <div class="container mx-auto px-4">
@@ -179,11 +174,11 @@
         <section id="home" class="content-section active card">
             <h2 class="section-title">환영합니다, 프로젝트 여백입니다.</h2>
             <p class="text-lg mb-6 text-center">
-                '프로젝트 여백'은 연기자들이 모여 깊이 있는 탐구와 주체적인 성장을 지향하는 스터디 그룹입니다.
+                '프로젝트 여백'은 예술성과 전략성을 겸비한 연기자들이 모여, 깊이 있는 탐구와 주체적인 성장을 지향하는 스터디 그룹입니다.
                 우리는 연기를 '만들어내는 것'이 아닌 '살아내는 것'으로 정의하며, 감성과 직관뿐 아니라 구조화된 사고를 통해 진정한 연기적 몰입을 추구합니다.
             </p>
             <div class="text-center mt-8">
-                <p class="text-xl font-semibold text-8C7C6D">"연기는 삶을 이해하고, 삶을 통해 표현하는 과정입니다."</p>
+                <p class="text-xl font-semibold text-A87C5A">"창의성은 떠오른 첫 번째 생각에서 더 나아가는 것입니다."</p>
                 <p class="mt-4 text-md">
                     이곳에서 '프로젝트 여백'의 스터디 여정을 함께 탐색하고,
                     연기 철학을 공유하며, 미래를 위한 영감을 얻어가시길 바랍니다.
@@ -194,124 +189,130 @@
         <section id="sessions" class="content-section card">
             <h2 class="section-title">스터디 세션</h2>
             <p class="text-lg mb-6">
-                '프로젝트 여백'의 지난 스터디 세션들을 기수별로 확인하고, 각 회차에서 다루었던 핵심 내용들을 복습할 수 있습니다.
+                '프로젝트 여백'의 지난 스터디 세션들을 확인하고, 각 회차에서 다루었던 핵심 내용들을 복습할 수 있습니다.
             </p>
 
             <div class="space-y-4">
-                <div class="term-card" data-term="term0">
-                    <h3 class="text-xl font-semibold text-3A3A3A">0기 스터디</h3>
+                <div class="session-card" data-session-id="term0">
+                    <h3 class="text-xl font-semibold text-4A4A4A">0기 스터디</h3>
+                    <p class="text-sm text-gray-600 mt-1">프로젝트 여백 0기 스터디의 주차별 피드백을 확인하세요.</p>
                 </div>
-                <div id="term0-weeks" class="week-list">
-                    <div class="week-card" data-session-id="session5">
-                        <h4 class="text-lg font-semibold text-8C7C6D">5주차 스터디 정리 (2025년 5월 24일)</h4>
-                        <p class="text-sm text-gray-600 mt-1">핵심 원칙, 무대/매체 연기 비교, 팀별 피드백 및 연기 철학 강조</p>
-                    </div>
-                    <div id="session5-detail" class="session-detail">
-                        <div class="session-detail-content">
-                            <h3 class="text-2xl font-semibold text-8C7C6D mb-4">2025년 5월 24일 프로젝트 여백 0기 5주차 스터디 정리</h3>
-                            <p class="mb-4 text-lg">이번 스터디는 배우의 본질적인 태도와 연기 기술, 그리고 연기 철학에 대한 중요한 지침을 제공했습니다.</p>
-
-                            <h4 class="text-xl font-semibold text-3A3A3A">1. 스터디 시작 전 공통 피드백</h4>
-                            <ul class="list-disc pl-5 space-y-2 text-md">
-                                <li><strong>감정은 행동에서 비롯:</strong> 배우는 감정을 '표현'하는 것이 아니라, 인물의 목적과 상황에 따른 '행동'을 수행할 때 감정이 자연스럽게 드러나도록 해야 합니다.</li>
-                                <li><strong>리액션의 중요성:</strong> 연기는 상대방과의 상호작용, 즉 리액션의 연속입니다.</li>
-                                <li><strong>'나'를 내려놓고 인물로 살기:</strong> 연기하는 순간에는 자기 의식을 내려놓고 인물로 온전히 몰입해야 합니다. 감정을 '보이게 하려는' 것이 아니라, 인물로서 상황에 집중했을 때 감정이 '자연스럽게 보여지는 것'을 목표로 해야 합니다.</li>
-                            </ul>
-
-                            <h4 class="text-xl font-semibold text-3A3A3A mt-6">🎭 무대 연기와 매체 연기의 차이 & 💬 사실주의 연기</h4>
-                            <p class="mb-4">무대 연기와 매체 연기는 환경과 전달 방식에 따라 요구되는 기술과 표현 방식에서 차이가 있습니다.</p>
-                            <div class="overflow-x-auto mb-6">
-                                <table class="min-w-full w-full">
-                                    <thead>
-                                        <tr>
-                                            <th>구분</th>
-                                            <th>무대 연기 (연극)</th>
-                                            <th>매체 연기 (영화, 드라마 등)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr><td>감정 표현</td><td>더 크게, 명확하게 (객석 끝까지 전달)</td><td>작고 미세하게 (카메라가 섬세한 감정 포착)</td></tr>
-                                        <tr><td>동작 크기</td><td>전체 관객에게 보이도록 확장된 움직임</td><td>카메라 프레임 내에서 자연스럽고 현실적인 움직임</td></tr>
-                                        <tr><td>발성/호흡</td><td>또렷하고 힘 있게 (대사 전달력 중요)</td><td>일상처럼 부드럽고 자연스럽게 (마이크가 소리 포착)</td></tr>
-                                        <tr><td>리듬</td><td>연극적 리듬감, 극의 흐름에 따른 고조와 이완</td><td>일상 언어에 가까운 현실적 리듬</td></tr>
-                                        <tr><td>시선 처리</td><td>객석을 포함한 가상의 4번째 벽 의식, 넓은 시야</td><td>카메라 렌즈 또는 상대 배우에게 집중, 좁은 시야</td></tr>
-                                        <tr><td>에너지</td><td>지속적이고 고조된 에너지, 순간적인 폭발력</td><td>섬세하고 절제된 에너지, 미묘한 감정 변화 중요</td></tr>
-                                    </tbody>
-                                </table>
+                <div id="term0-detail" class="session-detail">
+                    <div class="session-detail-content">
+                        <h4 class="text-xl font-semibold text-A87C5A mb-4">0기 주차별 피드백</h4>
+                        <div class="space-y-4">
+                            <div class="session-card" data-session-id="session5">
+                                <h4 class="text-lg font-semibold text-4A4A4A">5주차 스터디 정리 (2025년 5월 24일)</h4>
+                                <p class="text-sm text-gray-600 mt-1">핵심 원칙, 무대/매체 연기 비교, 팀별 피드백 및 연기 철학 강조</p>
                             </div>
-                            <p class="mt-4"><strong>사실주의 연기:</strong> 단순히 현실을 '복제'하는 것이 아니라, 관객이 실제 현실처럼 느끼게 하기 위해 필요한 <strong>'디테일하게 구성된 연기'</strong>입니다. 배우는 '연기하고 있음'을 의식하지 않고 인물로서 상황과 감정에 몰입할 때, 관객은 그것을 '진짜'처럼 받아들이게 됩니다.</p>
+                            <div id="session5-detail" class="session-detail">
+                                <div class="session-detail-content">
+                                    <h3 class="text-2xl font-semibold text-A87C5A mb-4">2025년 5월 24일 프로젝트 여백 0기 5주차 스터디 정리</h3>
+                                    <p class="mb-4 text-lg">이번 스터디는 배우의 본질적인 태도와 연기 기술, 그리고 연기 철학에 대한 중요한 지침을 제공했습니다.</p>
 
-                            <h4 class="text-xl font-semibold text-3A3A3A mt-6">2. 팀별 피드백 정리</h4>
-                            <h5 class="text-lg font-semibold text-8C7C6D mt-4">[피아노 레슨 팀] – 블로킹 및 분석 내용 요약 (「피아노 레슨, 그 후」)</h5>
-                            <ul class="list-disc pl-5 space-y-1 text-md">
-                                <li><strong>연습 방식과 구조:</strong> 매주 처음부터 전체 대본을 반복하며 진행하여 전체 흐름과 인물의 감정선 연결성을 확보하는 것이 효과적입니다.</li>
-                                <li><strong>타카코:</strong> 사사키를 마주했을 때의 어색함, 불편함, 애써 감추는 모습이 관객에게 명확하게 드러나야 합니다.</li>
-                                <li><strong>사사키:</strong> 표현 욕심을 더 내고, 캐릭터 나이와 위계 구조를 명확히 인식하여 시각적으로 표현해야 합니다. 감정의 '크레셴도 구간'을 세분화하여 복합적이고 미묘하게 변화하는 감정 스펙트럼을 보여주세요.</li>
-                            </ul>
-                            <h5 class="text-lg font-semibold text-8C7C6D mt-4">[흔해빠진 독서 팀] 피드백 요약 (「흔해빠진 독서」)</h5>
-                            <ul class="list-disc pl-5 space-y-1 text-md">
-                                <li><strong>전반적인 변화:</strong> 두 분 모두 표현력이 향상되었으며, 적극적인 표현 시도가 좋았습니다.</li>
-                                <li><strong>혜인 (언니):</strong> 과거 회상 대사 시 상상력을 발휘하여 실제 장면이 생생하게 그려지도록, 감정 이입과 상상력을 활용해야 합니다.</li>
-                                <li><strong>예진 (동생):</strong> 짧은 대사에도 캐릭터의 호흡을 담고, 리액션 타이밍을 현실적으로 가져가세요. 무대 공간을 적극적으로 활용하고, '책'의 상징적 의미와 대사의 깊은 의도를 분석해야 합니다.</li>
-                            </ul>
+                                    <h4 class="text-xl font-semibold text-4A4A4A">1. 스터디 시작 전 공통 피드백</h4>
+                                    <ul class="list-disc pl-5 space-y-2 text-md">
+                                        <li><strong>감정은 행동에서 비롯:</strong> 배우는 감정을 '표현'하는 것이 아니라, 인물의 목적과 상황에 따른 '행동'을 수행할 때 감정이 자연스럽게 드러나도록 해야 합니다.</li>
+                                        <li><strong>리액션의 중요성:</strong> 연기는 상대방과의 상호작용, 즉 리액션의 연속입니다.</li>
+                                        <li><strong>'나'를 내려놓고 인물로 살기:</strong> 연기하는 순간에는 자기 의식을 내려놓고 인물로 온전히 몰입해야 합니다. 감정을 '보이게 하려는' 것이 아니라, 인물로서 상황에 집중했을 때 감정이 '자연스럽게 보여지는 것'을 목표로 해야 합니다.</li>
+                                    </ul>
 
-                            <h4 class="text-xl font-semibold text-3A3A3A mt-6">3. 연기 기술 피드백 – 전체 배우 공통</h4>
-                            <ul class="list-disc pl-5 space-y-1 text-md">
-                                <li><strong>대사와 행동의 유기성:</strong> 엄격한 구분 없이 자연스럽게 유기적으로 연결되어야 합니다.</li>
-                                <li><strong>애드립과 맥락:</strong> 감탄사나 애드립은 캐릭터의 성격과 현재 상황의 맥락에 맞게 신중하게 선택해야 합니다.</li>
-                                <li><strong>리액션의 타이밍:</strong> 현실 대화처럼 상대방의 말이 끝나기 전에도 즉각적인 반응이 보이거나, 말 도중에도 리액션이 드러날 수 있어야 합니다.</li>
-                                <li><strong>연습 중 태도와 방향:</strong> 대사 암기나 정확도보다 주어진 상황과 상대 배우에게 온전히 집중하는 것이 중요합니다. 현재는 '블로킹' 단계로, 인물들이 움직이며 상황을 만들어가는 작업에 집중해야 합니다. "글에 집중하는 순간, 연기는 읽기로 바뀐다."는 점을 명심하고, 대본을 '읽는' 것이 아니라 인물로서 '살아내는' 연기를 해야 합니다.</li>
-                            </ul>
-                            <div class="mt-6 p-4 border border-B8A99B rounded-lg bg-F1EDEA">
-                                <h5 class="text-lg font-semibold text-8C7C6D !mt-0">연습 중 집중 요소 흐름</h5>
-                                <div class="space-y-1 mt-2">
-                                    <div class="flow-diagram-step">1. 주어진 상황에 집중</div>
-                                    <div class="flow-diagram-arrow">⬇️</div>
-                                    <div class="flow-diagram-step">2. 상대 배우에게 집중</div>
-                                    <div class="flow-diagram-arrow">⬇️</div>
-                                    <div class="flow-diagram-step">3. (결과) 자연스러운 리액션과 행동</div>
-                                    <p class="text-center text-sm mt-2 text-gray-600">(❌ 대사 암기나 정확도에만 매몰되지 않기)</p>
+                                    <h4 class="text-xl font-semibold text-4A4A4A mt-6">🎭 무대 연기와 매체 연기의 차이 & 💬 사실주의 연기</h4>
+                                    <p class="mb-4">무대 연기와 매체 연기는 환경과 전달 방식에 따라 요구되는 기술과 표현 방식에서 차이가 있습니다.</p>
+                                    <div class="overflow-x-auto mb-6">
+                                        <table class="min-w-full w-full">
+                                            <thead>
+                                                <tr>
+                                                    <th>구분</th>
+                                                    <th>무대 연기 (연극)</th>
+                                                    <th>매체 연기 (영화, 드라마 등)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr><td>감정 표현</td><td>더 크게, 명확하게 (객석 끝까지 전달)</td><td>작고 미세하게 (카메라가 섬세한 감정 포착)</td></tr>
+                                                <tr><td>동작 크기</td><td>전체 관객에게 보이도록 확장된 움직임</td><td>카메라 프레임 내에서 자연스럽고 현실적인 움직임</td></tr>
+                                                <tr><td>발성/호흡</td><td>또렷하고 힘 있게 (대사 전달력 중요)</td><td>일상처럼 부드럽고 자연스럽게 (마이크가 소리 포착)</td></tr>
+                                                <tr><td>리듬</td><td>연극적 리듬감, 극의 흐름에 따른 고조와 이완</td><td>일상 언어에 가까운 현실적 리듬</td></tr>
+                                                <tr><td>시선 처리</td><td>객석을 포함한 가상의 4번째 벽 의식, 넓은 시야</td><td>카메라 렌즈 또는 상대 배우에게 집중, 좁은 시야</td></tr>
+                                                <tr><td>에너지</td><td>지속적이고 고조된 에너지, 순간적인 폭발력</td><td>섬세하고 절제된 에너지, 미묘한 감정 변화 중요</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <p class="mt-4"><strong>사실주의 연기:</strong> 단순히 현실을 '복제'하는 것이 아니라, 관객이 실제 현실처럼 느끼게 하기 위해 필요한 <strong>'디테일하게 구성된 연기'</strong>입니다. 배우는 '연기하고 있음'을 의식하지 않고 인물로서 상황과 감정에 몰입할 때, 관객은 그것을 '진짜'처럼 받아들이게 됩니다.</p>
+
+                                    <h4 class="text-xl font-semibold text-4A4A4A mt-6">2. 팀별 피드백 정리</h4>
+                                    <h5 class="text-lg font-semibold text-A87C5A mt-4">[피아노 레슨 팀] – 블로킹 및 분석 내용 요약 (「피아노 레슨, 그 후」)</h5>
+                                    <ul class="list-disc pl-5 space-y-1 text-md">
+                                        <li><strong>연습 방식과 구조:</strong> 매주 처음부터 전체 대본을 반복하며 진행하여 전체 흐름과 인물의 감정선 연결성을 확보하는 것이 효과적입니다.</li>
+                                        <li><strong>타카코:</strong> 사사키를 마주했을 때의 어색함, 불편함, 애써 감추는 모습이 관객에게 명확하게 드러나야 합니다.</li>
+                                        <li><strong>사사키:</strong> 표현 욕심을 더 내고, 캐릭터 나이와 위계 구조를 명확히 인식하여 시각적으로 표현해야 합니다. 감정의 '크레셴도 구간'을 세분화하여 복합적이고 미묘하게 변화하는 감정 스펙트럼을 보여주세요.</li>
+                                    </ul>
+                                    <h5 class="text-lg font-semibold text-A87C5A mt-4">[흔해빠진 독서 팀] 피드백 요약 (「흔해빠진 독서」)</h5>
+                                    <ul class="list-disc pl-5 space-y-1 text-md">
+                                        <li><strong>전반적인 변화:</strong> 두 분 모두 표현력이 향상되었으며, 적극적인 표현 시도가 좋았습니다.</li>
+                                        <li><strong>혜인 (언니):</strong> 과거 회상 대사 시 상상력을 발휘하여 실제 장면이 생생하게 그려지도록, 감정 이입과 상상력을 활용해야 합니다.</li>
+                                        <li><strong>예진 (동생):</strong> 짧은 대사에도 캐릭터의 호흡을 담고, 리액션 타이밍을 현실적으로 가져가세요. 무대 공간을 적극적으로 활용하고, '책'의 상징적 의미와 대사의 깊은 의도를 분석해야 합니다.</li>
+                                    </ul>
+
+                                    <h4 class="text-xl font-semibold text-4A4A4A mt-6">3. 연기 기술 피드백 – 전체 배우 공통</h4>
+                                    <ul class="list-disc pl-5 space-y-1 text-md">
+                                        <li><strong>대사와 행동의 유기성:</strong> 엄격한 구분 없이 자연스럽게 유기적으로 연결되어야 합니다.</li>
+                                        <li><strong>애드립과 맥락:</strong> 감탄사나 애드립은 캐릭터의 성격과 현재 상황의 맥락에 맞게 신중하게 선택해야 합니다.</li>
+                                        <li><strong>리액션의 타이밍:</strong> 현실 대화처럼 상대방의 말이 끝나기 전에도 즉각적인 반응이 보이거나, 말 도중에도 리액션이 드러날 수 있어야 합니다.</li>
+                                        <li><strong>연습 중 태도와 방향:</strong> 대사 암기나 정확도보다 주어진 상황과 상대 배우에게 온전히 집중하는 것이 중요합니다. 현재는 '블로킹' 단계로, 인물들이 움직이며 상황을 만들어가는 작업에 집중해야 합니다. "글에 집중하는 순간, 연기는 읽기로 바뀐다."는 점을 명심하고, 대본을 '읽는' 것이 아니라 인물로서 '살아내는' 연기를 해야 합니다.</li>
+                                    </ul>
+                                    <div class="mt-6 p-4 border border-D4BBAA rounded-lg bg-F8F3ED">
+                                        <h5 class="text-lg font-semibold text-A87C5A !mt-0">연습 중 집중 요소 흐름</h5>
+                                        <div class="space-y-1 mt-2">
+                                            <div class="flow-diagram-step">1. 주어진 상황에 집중</div>
+                                            <div class="flow-diagram-arrow">⬇️</div>
+                                            <div class="flow-diagram-step">2. 상대 배우에게 집중</div>
+                                            <div class="flow-diagram-arrow">⬇️</div>
+                                            <div class="flow-diagram-step">3. (결과) 자연스러운 리액션과 행동</div>
+                                            <p class="text-center text-sm mt-2 text-gray-600">(❌ 대사 암기나 정확도에만 매몰되지 않기)</p>
+                                        </div>
+                                    </div>
+
+                                    <h4 class="text-xl font-semibold text-4A4A4A mt-6">4. 연기 철학 강조 – "보여주는 것 vs 보여지는 것"</h4>
+                                    <p class="mb-4 text-md"><strong>보여주는 연기:</strong> 감정을 의도적으로 드러내고, 배우 자신의 자의식이 개입되며, 연기의 결과를 만들어내려 합니다.</p>
+                                    <p class="mb-4 text-md"><strong>보여지는 연기:</strong> 감정이 자연스럽게 드러나고, 오직 상황과 인물 간의 관계에 집중하며, 연기하는 과정 속에서 결과가 자연스럽게 발생합니다. 이것이 진정한 연기적 몰입과 관객 공감의 핵심입니다.</p>
+                                    <p class="highlight-quote">"우리의 목표는 감정을 '보이게 하려는' 것이 아니라, 그 상황에 인물로서 집중했을 때 감정이 '자연스럽게 보여지는 것'이 되어야 합니다."</p>
+
+                                    <h4 class="text-xl font-semibold text-4A4A4A mt-6">6. 마지막 강조 메시지</h4>
+                                    <p class="highlight-quote mb-4">"연기란 '만드는 것'이 아니라, '살아내는 것'입니다."</p>
+                                    <p class="mb-4 text-md">배우 스스로가 인물을 연구하고, 대본을 분석하며, 스스로의 해석과 고민을 가지고 연습에 임해야 합니다. 스터디는 배우가 보여준 것에 대해 함께 고민하고 보완점을 제시하여 진정한 성장을 돕는 역할을 합니다.</p>
+                                    <p class="text-xl font-semibold text-A87C5A p-4 bg-F8F3ED rounded-lg border border-D4BBAA text-center">"예술 수업은 가르치는 것이 아니라, 보여준 것을 보고 보완해주는 것이다."</p>
+
+                                    <h4 class="text-xl font-semibold text-4A4A4A mt-6">7. 다음 회차 준비 사항</h4>
+                                    <ul class="list-disc pl-5 space-y-1 text-md">
+                                        <li>각 팀은 피드백을 바탕으로 대본과 캐릭터를 깊이 있게 분석하고, '감정은 행동에서 나온다', '리액션의 타이밍', '무대 활용' 등의 개념을 구체적으로 적용할지 고민해 와야 합니다.</li>
+                                        <li>다음 주에는 각 팀의 대본 분석 내용을 간략하게 정리해서 공유할 시간을 가질 예정입니다.</li>
+                                        <li>개인별로 자신의 대사 속에서 '보여주는 연기'가 아닌 '보여지는 연기'를 할 수 있는 순간들을 찾아보고, 이를 어떻게 구현할지 연습해 오세요.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="session-card" data-session-id="session4">
+                                <h4 class="text-lg font-semibold text-4A4A4A">4주차 스터디 정리 (예시)</h4>
+                                <p class="text-sm text-gray-600 mt-1">간략한 내용 요약</p>
+                            </div>
+                            <div id="session4-detail" class="session-detail">
+                                <div class="session-detail-content">
+                                    <h3 class="text-2xl font-semibold text-A87C5A mb-4">2025년 5월 17일 프로젝트 여백 0기 4주차 스터디 정리 (예시)</h3>
+                                    <p class="mb-4 text-lg">여기에 4주차 스터디의 상세 내용을 추가하시면 됩니다. 텍스트, 표, 리스트 등 다양한 형식으로 구성할 수 있습니다.</p>
                                 </div>
                             </div>
 
-                            <h4 class="text-xl font-semibold text-3A3A3A mt-6">4. 연기 철학 강조 – "보여주는 것 vs 보여지는 것"</h4>
-                            <p class="mb-4 text-md"><strong>보여주는 연기:</strong> 감정을 의도적으로 드러내고, 배우 자신의 자의식이 개입되며, 연기의 결과를 만들어내려 합니다.</p>
-                            <p class="mb-4 text-md"><strong>보여지는 연기:</strong> 감정이 자연스럽게 드러나고, 오직 상황과 인물 간의 관계에 집중하며, 연기하는 과정 속에서 결과가 자연스럽게 발생합니다. 이것이 진정한 연기적 몰입과 관객 공감의 핵심입니다.</p>
-                            <p class="highlight-quote">"우리의 목표는 감정을 '보이게 하려는' 것이 아니라, 그 상황에 인물로서 집중했을 때 감정이 '자연스럽게 보여지는 것'이 되어야 합니다."</p>
-
-                            <h4 class="text-xl font-semibold text-3A3A3A mt-6">6. 마지막 강조 메시지</h4>
-                            <p class="highlight-quote mb-4">"연기란 '만드는 것'이 아니라, '살아내는 것'입니다."</p>
-                            <p class="mb-4 text-md">배우 스스로가 인물을 연구하고, 대본을 분석하며, 스스로의 해석과 고민을 가지고 연습에 임해야 합니다. 스터디는 배우가 보여준 것에 대해 함께 고민하고 보완점을 제시하여 진정한 성장을 돕는 역할을 합니다.</p>
-                            <p class="text-xl font-semibold text-8C7C6D p-4 bg-F1EDEA rounded-lg border border-B8A99B text-center">"예술 수업은 가르치는 것이 아니라, 보여준 것을 보고 보완해주는 것이다."</p>
-
-                            <h4 class="text-xl font-semibold text-3A3A3A mt-6">7. 다음 회차 준비 사항</h4>
-                            <ul class="list-disc pl-5 space-y-1 text-md">
-                                <li>각 팀은 피드백을 바탕으로 대본과 캐릭터를 깊이 있게 분석하고, '감정은 행동에서 나온다', '리액션의 타이밍', '무대 활용' 등의 개념을 구체적으로 적용할지 고민해 와야 합니다.</li>
-                                <li>다음 주에는 각 팀의 대본 분석 내용을 간략하게 정리해서 공유할 시간을 가질 예정입니다.</li>
-                                <li>개인별로 자신의 대사 속에서 '보여주는 연기'가 아닌 '보여지는 연기'를 할 수 있는 순간들을 찾아보고, 이를 어떻게 구현할지 연습해 오세요.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="week-card" data-session-id="session4">
-                        <h4 class="text-lg font-semibold text-8C7C6D">4주차 스터디 정리 (예시)</h4>
-                        <p class="text-sm text-gray-600 mt-1">간략한 내용 요약</p>
-                    </div>
-                    <div id="session4-detail" class="session-detail">
-                        <div class="session-detail-content">
-                            <h3 class="text-2xl font-semibold text-8C7C6D mb-4">2025년 5월 17일 프로젝트 여백 0기 4주차 스터디 정리 (예시)</h3>
-                            <p class="mb-4 text-lg">여기에 4주차 스터디의 상세 내용을 추가하시면 됩니다. 텍스트, 표, 리스트 등 다양한 형식으로 구성할 수 있습니다.</p>
-                        </div>
-                    </div>
-
-                    <div class="week-card" data-session-id="session3">
-                        <h4 class="text-lg font-semibold text-8C7C6D">3주차 스터디 정리 (예시)</h4>
-                        <p class="text-sm text-gray-600 mt-1">간략한 내용 요약</p>
-                    </div>
-                    <div id="session3-detail" class="session-detail">
-                        <div class="session-detail-content">
-                            <h3 class="text-2xl font-semibold text-8C7C6D mb-4">2025년 5월 10일 프로젝트 여백 0기 3주차 스터디 정리 (예시)</h3>
-                            <p class="mb-4 text-lg">여기에 3주차 스터디의 상세 내용을 추가하시면 됩니다.</p>
+                            <div class="session-card" data-session-id="session3">
+                                <h4 class="text-lg font-semibold text-4A4A4A">3주차 스터디 정리 (예시)</h4>
+                                <p class="text-sm text-gray-600 mt-1">간략한 내용 요약</p>
+                            </div>
+                            <div id="session3-detail" class="session-detail">
+                                <div class="session-detail-content">
+                                    <h3 class="text-2xl font-semibold text-A87C5A mb-4">2025년 5월 10일 프로젝트 여백 0기 3주차 스터디 정리 (예시)</h3>
+                                    <p class="mb-4 text-lg">여기에 3주차 스터디의 상세 내용을 추가하시면 됩니다.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -321,51 +322,51 @@
         <section id="about" class="content-section card">
             <h2 class="section-title">프로젝트 여백 소개</h2>
             <p class="text-lg mb-6">
-                '프로젝트 여백'은 연기자들이 깊이 있는 탐구와 주체적인 성장을 목표로 모인 스터디 그룹입니다.
-                배우 교육, 희곡 집필, 공연 연출 경험을 바탕으로, 연기 예술에 대한 끊임없는 질문과 실험을 통해 본질적인 연기력을 함께 만들어 나갑니다.
+                '프로젝트 여백'은 성악에서 연기로 관심 분야를 전환하신 대표님께서 운영하시는 스터디 그룹입니다.
+                배우 교육, 희곡 집필, 공연 연출 경험을 바탕으로, 연기자들의 주체적인 성장을 돕고 있습니다.
             </p>
             <div class="grid md:grid-cols-2 gap-8 mt-8">
                 <div>
-                    <h3 class="text-xl font-semibold text-8C7C6D mb-4">우리의 접근 방식</h3>
+                    <h3 class="text-xl font-semibold text-A87C5A mb-4">우리의 연기 철학</h3>
                     <ul class="list-disc pl-5 space-y-2 text-md">
-                        <li>심리극, 부조리극, 그리고 예술적 모호함과 여운을 주는 구조를 선호합니다.</li>
-                        <li>연극, 문학, 시, 창작 대사에 대한 깊이 있는 이해를 바탕으로 합니다.</li>
-                        <li>청자 존재형 독백 구성과 섬세한 무대 연출에 대한 고민을 공유합니다.</li>
-                        <li>감성과 직관뿐 아니라 구조화된 사고를 통해 연기 본연의 의미를 탐색합니다.</li>
+                        <li>심리극, 부조리극, 예술적 모호함과 여운을 주는 구조를 선호합니다.</li>
+                        <li>연극, 문학, 시, 창작 대사에 강하며, 청자 존재형 독백 구성과 무대 구성을 중요하게 생각합니다.</li>
+                        <li>창의성을 "떠오른 첫 번째 생각에서 더 나아가는 것"으로 정의하며, 감성과 직관뿐 아니라 구조화된 사고를 중시합니다.</li>
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-xl font-semibold text-8C7C6D mb-4">주요 활동 분야</h3>
+                    <h3 class="text-xl font-semibold text-A87C5A mb-4">미래를 향한 비전</h3>
                     <ul class="list-disc pl-5 space-y-2 text-md">
-                        <li>배우 교육 및 연기 훈련: 체계적인 피드백을 통한 개인별 성장 지원</li>
-                        <li>희곡 집필 및 분석: 새로운 이야기를 발굴하고 해석하는 작업</li>
-                        <li>공연 연출 및 제작: 실제 무대 경험을 통한 실력 향상</li>
-                        <li>자료 아카이빙 및 공유: 연기 연습에 필요한 다양한 자료 구축</li>
-                        <li>예술과 상업의 융합 탐구: 창의성을 비즈니스로 연결하는 시도</li>
+                        <li>장기적으로 복수 브랜드 오너가 되는 것을 목표로 합니다.</li>
+                        <li>문화 콘텐츠 복합공간 **'잔 하우스'**와 바 거리 프로젝트(재즈바, 콘텐츠바 등)를 구상 중입니다.</li>
+                        <li>예술과 상업이 융합된 복합문화사업의 창업 및 운영을 실행에 옮기고자 합니다.</li>
+                        <li>현재 React Native를 활용한 연기자 커뮤니티 플랫폼 앱 개발을 목표로 하고 있습니다. (오디션/공연 정보 공유, 연기 수업, 스터디, 독백/대사 자료 공유, 연기자 프로필, 무페이 협업 구인, MR/악보/희곡 등 아카이빙 기능 포함)</li>
                     </ul>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="text-center py-8 bg-3A3A3A text-F9F7F5 text-sm">
+    <footer class="text-center py-8 bg-4A4A4A text-FDFBF7 text-sm">
         <p>&copy; 2025 프로젝트 여백. 모든 배우들의 빛나는 성장을 응원합니다.</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("JavaScript DOMContentLoaded 이벤트 발생."); // JS 실행 확인 메시지
+            console.log("JavaScript DOMContentLoaded 이벤트 발생. 초기화 시작."); // JS 실행 확인 메시지
+
             const navLinks = document.querySelectorAll('#mainNav .nav-link');
             const contentSections = document.querySelectorAll('.content-section');
-            const termCards = document.querySelectorAll('.term-card');
-            const weekLists = document.querySelectorAll('.week-list');
-            const weekCards = document.querySelectorAll('.week-card');
+            const term0Card = document.querySelector('.session-card[data-session-id="term0"]'); // 0기 스터디 카드 선택
+            const term0Detail = document.getElementById('term0-detail'); // 0기 주차 목록 상세 내용
 
-            // 페이지 로드 시 모든 상세 내용이 숨겨져 있는지 다시 한번 확인 (강력 새로고침 대비)
+            const weekCards = document.querySelectorAll('#term0-detail .session-card'); // 0기 내의 모든 주차 카드 선택
+
+            // 페이지 로드 시 모든 상세 내용이 숨겨져 있는지 확인하고 숨김
             document.querySelectorAll('.session-detail').forEach(detail => {
-                detail.classList.remove('active'); // active 클래스 제거
+                detail.classList.remove('active'); // active 클래스 제거하여 숨김
             });
-            console.log("초기 로드 시 모든 상세 내용이 숨겨졌는지 확인."); // 초기 상태 확인 메시지
+            console.log("초기 로드 시 모든 '.session-detail' 요소가 숨겨졌는지 확인 완료."); // 초기 상태 확인 메시지
 
             // Function to show a specific section and update active nav link
             function showSection(targetId) {
@@ -375,6 +376,7 @@
                 const targetSection = document.querySelector(targetId);
                 if (targetSection) {
                     targetSection.classList.add('active');
+                    console.log(`섹션 활성화: ${targetId}`); // 섹션 활성화 메시지
                 }
 
                 navLinks.forEach(link => {
@@ -387,6 +389,7 @@
 
             // Initial load: show the home section
             showSection('#home');
+            console.log("초기 '홈' 섹션 활성화."); // 초기 섹션 활성화 메시지
 
             // Navigation click handler
             navLinks.forEach(link => {
@@ -401,55 +404,60 @@
                             top: mainContent.offsetTop - document.getElementById('mainNav').offsetHeight,
                             behavior: 'smooth'
                         });
+                        console.log(`내비게이션 클릭: ${targetId}, 스크롤 이동.`); // 내비게이션 클릭 메시지
                     }
                 });
             });
 
-            // Term card click handler to toggle week list
-            termCards.forEach(card => {
-                card.addEventListener('click', function () {
-                    const term = this.getAttribute('data-term');
-                    const weekList = document.getElementById(term + '-weeks');
-                    console.log(`기수 카드 클릭됨: ${term}, 주차 목록 요소:`, weekList); // 디버깅 메시지
-                    if (weekList) {
-                        // 다른 기수의 주차 목록 닫기
-                        weekLists.forEach(list => {
-                            if (list.id !== (term + '-weeks')) {
-                                list.classList.remove('active');
-                                console.log(`다른 주차 목록 닫음: ${list.id}`); // 디버깅 메시지
-                            }
-                        });
-                        // 현재 기수의 주차 목록 토글
-                        weekList.classList.toggle('active');
-                        console.log(`현재 주차 목록 상태: ${weekList.classList.contains('active') ? '열림' : '닫힘'}`); // 디버깅 메시지
-
-                        // 새로운 기수 목록이 열리거나 닫힐 때, 모든 주차 상세 내용을 닫기
-                        document.querySelectorAll('.session-detail').forEach(detail => {
-                            detail.classList.remove('active');
-                            console.log(`기수 변경으로 상세 내용 닫음: ${detail.id}`); // 디버깅 메시지
-                        });
+            // 0기 스터디 카드 클릭 핸들러 (주차 목록 토글)
+            if (term0Card) {
+                term0Card.addEventListener('click', function () {
+                    console.log(`'0기 스터디' 카드 클릭됨.`); // 0기 카드 클릭 메시지
+                    if (term0Detail) {
+                        term0Detail.classList.toggle('active');
+                        console.log(`'0기 스터디' 상세 내용 (주차 목록) 상태: ${term0Detail.classList.contains('active') ? '열림' : '닫힘'}`); // 0기 상세 내용 토글 상태 메시지
+                        
+                        // 0기 주차 목록이 닫힐 때, 그 안에 열려있던 모든 주차 상세 내용도 닫기
+                        if (!term0Detail.classList.contains('active')) {
+                            weekCards.forEach(card => {
+                                const sessionId = card.getAttribute('data-session-id');
+                                const detailElement = document.getElementById(sessionId + '-detail');
+                                if (detailElement && detailElement.classList.contains('active')) {
+                                    detailElement.classList.remove('active');
+                                    console.log(`'0기 스터디' 닫힘으로 인해 '${sessionId}' 상세 내용 닫음.`);
+                                }
+                            });
+                        }
+                    } else {
+                        console.warn(`경고: ID 'term0-detail'을 가진 0기 상세 내용 요소를 찾을 수 없습니다.`);
                     }
                 });
-            });
+            }
 
-            // Week card click handler to toggle session details
+
+            // 각 주차 카드 클릭 핸들러 (주차 상세 내용 토글)
             weekCards.forEach(card => {
                 card.addEventListener('click', function () {
                     const sessionId = this.getAttribute('data-session-id');
                     const detailElement = document.getElementById(sessionId + '-detail');
-                    console.log(`클릭된 주차 카드: ${sessionId}, 상세 내용 요소:`, detailElement); // 디버깅 메시지
+                    console.log(`'${sessionId}' 주차 카드 클릭됨.`); // 주차 카드 클릭 메시지
+                    console.log(`상세 내용 요소:`, detailElement); // 상세 내용 요소 확인
+
                     if (detailElement) {
                         // 현재 주차 목록 내의 다른 상세 내용 닫기
-                        // (다른 기수의 상세 내용까지 닫으려면 더 넓은 선택자가 필요)
-                        detailElement.parentElement.querySelectorAll('.session-detail').forEach(detail => {
-                            if (detail.id !== (sessionId + '-detail')) {
-                                detail.classList.remove('active');
-                                console.log(`다른 주차 상세 내용 닫음: ${detail.id}`); // 디버깅 메시지
+                        weekCards.forEach(otherCard => {
+                            const otherSessionId = otherCard.getAttribute('data-session-id');
+                            const otherDetailElement = document.getElementById(otherSessionId + '-detail');
+                            if (otherDetailElement && otherDetailElement.id !== (sessionId + '-detail') && otherDetailElement.classList.contains('active')) {
+                                otherDetailElement.classList.remove('active');
+                                console.log(`다른 주차 상세 내용 닫음: ${otherDetailElement.id}`); // 다른 상세 내용 닫힘 메시지
                             }
                         });
                         // 현재 주차 상세 내용 토글
                         detailElement.classList.toggle('active');
-                        console.log(`현재 주차 상세 내용 상태: ${detailElement.classList.contains('active') ? '열림' : '닫힘'}`); // 디버깅 메시지
+                        console.log(`'${sessionId}' 상세 내용 상태: ${detailElement.classList.contains('active') ? '열림' : '닫힘'}`); // 상세 내용 토글 상태 메시지
+                    } else {
+                        console.warn(`경고: ID '${sessionId}-detail'을 가진 상세 내용 요소를 찾을 수 없습니다.`); // 요소 없음 경고
                     }
                 });
             });
