@@ -5,332 +5,239 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로젝트 여백 0기 5주차 스터디 정리</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 애플리케이션 구조 계획: 
-        - 구조: 헤더, 고정 내비게이션, 섹션 1 (스터디 시작 전 공통 피드백), 섹션 2 (무대 연기 vs 매체 연기 & 사실주의 연기), 섹션 3 (팀별 피드백), 섹션 4 (공통 연기 기술 피드백), 섹션 5 (연기 철학), 섹션 6 (마지막 강조 메시지), 섹션 7 (다음 회차 준비 사항), 푸터.
-        - 주요 인터랙션: 스크롤 기반 내비게이션 메뉴 활성화. 명확한 정보 계층 구조.
-        - 선택 이유: 보고서의 논리적 흐름을 따르면서 사용자가 각 주제를 체계적으로 검토하고 쉽게 탐색할 수 있도록 지원합니다. 텍스트 기반 정보의 가독성과 접근성에 중점을 두었습니다.
-    -->
-    <!-- 시각화 및 콘텐츠 선택:
-        - 보고서 정보: 스터디 시작 전 공통 피드백 -> 목표: 정보 전달 -> 시각화/표현 방법: 강조된 텍스트, 카드 레이아웃 -> 인터랙션: 없음 -> 정당화: 핵심 원칙 강조 -> 방법: HTML/CSS.
-        - 보고서 정보: 무대 연기 vs 매체 연기 -> 목표: 비교 -> 시각화/표현 방법: HTML 테이블 -> 인터랙션: 없음 -> 정당화: 명확한 비교 -> 방법: HTML/Tailwind CSS.
-        - 보고서 정보: 사실주의 연기 -> 목표: 정보 전달 -> 시각화/표현 방법: 스타일된 텍스트 블록 -> 인터랙션: 없음 -> 정당화: 개념 명확화 -> 방법: HTML/CSS.
-        - 보고서 정보: 팀별 피드백 -> 목표: 정보 전달 -> 시각화/표현 방법: 카드 내 구조화된 텍스트 (리스트) -> 인터랙션: 없음 -> 정당화: 세부 피드백 명확히 전달 -> 방법: HTML/CSS.
-        - 보고서 정보: 공통 연기 기술 (대사-행동 유기성 등) -> 목표: 정보 조직화/전달 -> 시각화/표현 방법: HTML 리스트, 간단한 HTML/CSS 다이어그램 (유니코드 화살표 사용) -> 인터랙션: 없음 -> 정당화: 기술적 조언 시각적 보조 -> 방법: HTML/CSS.
-        - 보고서 정보: 연기 철학 (보여주는 것 vs 보여지는 것) -> 목표: 비교/정보 전달 -> 시각화/표현 방법: 대조적인 텍스트 블록 -> 인터랙션: 없음 -> 정당화: 철학적 핵심 명확히 구분 -> 방법: HTML/CSS.
-        - 확인: SVG 그래픽 미사용. Mermaid JS 미사용. Chart.js 및 Plotly.js 미사용.
-    -->
     <style>
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-            background-color: #FDFBF7; /* Very light warm beige */
-            color: #4A4A4A; /* Dark warm gray */
-            scroll-behavior: smooth;
-        }
-        .sticky-nav {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background-color: rgba(255, 255, 255, 0.9); /* White with slight transparency */
-            backdrop-filter: blur(8px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .nav-link {
-            color: #4A4A4A; /* Dark warm gray */
-            transition: color 0.3s ease, border-bottom-color 0.3s ease;
-            border-bottom: 2px solid transparent;
-        }
-        .nav-link:hover {
-            color: #A87C5A; /* Soft terracotta */
-        }
-        .nav-link.active {
-            color: #A87C5A; /* Soft terracotta */
-            font-weight: 600; /* semibold */
-            border-bottom-color: #A87C5A;
-        }
-        .section-title {
-            font-size: 2rem; /* text-3xl */
-            font-weight: 700; /* font-bold */
-            color: #A87C5A; /* Soft terracotta */
-            margin-bottom: 1.5rem; /* mb-6 */
-            padding-bottom: 0.5rem; /* pb-2 */
-            border-bottom: 2px solid #D4BBAA; /* Lighter terracotta accent */
-        }
-        .card {
-            background-color: #FFFFFF; /* White */
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Softer shadow */
-            padding: 2rem; /* p-8 */
-            margin-bottom: 2.5rem; /* mb-10 */
-        }
-        .highlight-quote {
-            font-size: 1.5rem; /* text-2xl */
-            font-weight: 600; /* font-semibold */
-            color: #A87C5A; /* Soft terracotta */
-            padding: 1.5rem;
-            background-color: #FDFBF7; /* Page background for contrast */
-            border-left: 4px solid #A87C5A;
-            margin: 1.5rem 0;
-        }
-        .flow-diagram-step {
-            background-color: #F8F3ED; /* Very light terracotta */
-            border: 1px solid #D4BBAA; /* Lighter terracotta accent */
-            color: #4A4A4A;
-            padding: 0.75rem 1rem; /* p-3 p-4 */
-            border-radius: 0.5rem; /* rounded-lg */
-            text-align: center;
-            font-weight: 500; /* font-medium */
-        }
-        .flow-diagram-arrow {
-            font-size: 1.5rem; /* text-2xl */
-            color: #A87C5A;
-            margin: 0.25rem 0; /* my-1 */
-            text-align: center;
-        }
-        h3 {
-            font-size: 1.5rem; /* text-2xl */
-            font-weight: 600; /* font-semibold */
-            color: #4A4A4A;
-            margin-bottom: 1rem; /* mb-4 */
-        }
-        h4 {
-            font-size: 1.25rem; /* text-xl */
-            font-weight: 600; /* font-semibold */
-            color: #A87C5A; /* Soft terracotta for sub-subheadings */
-            margin-top: 1.5rem; /* mt-6 */
-            margin-bottom: 0.75rem; /* mb-3 */
-        }
-        ul, ol {
-            list-style-position: inside;
-            margin-left: 0.5rem; /* ml-2 for better indent */
-        }
-        li {
-            margin-bottom: 0.5rem; /* mb-2 */
-        }
-        strong {
-            font-weight: 600; /* semibold */
-            color: #A87C5A;
-        }
-        table {
-            border-collapse: collapse; /* Ensures borders are clean */
-        }
-        th, td {
-            border: 1px solid #EAE0D8; /* Light warm gray for table borders */
-            padding: 0.75rem; /* p-3 */
-            text-align: left;
-        }
-        thead th {
-            background-color: #F8F3ED; /* Very light terracotta for table header */
-            font-weight: 600;
-        }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; }
+        .container { max-width: 900px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        h1, h2, h3 { color: #2c3e50; margin-bottom: 15px; }
+        h1 { text-align: center; font-size: 2.5em; margin-bottom: 30px; }
+        h2 { font-size: 1.8em; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 30px; }
+        h3 { font-size: 1.4em; color: #3498db; margin-top: 25px; }
+        section { margin-bottom: 40px; padding: 20px; border-left: 5px solid #3498db; background-color: #ecf0f1; border-radius: 5px; }
+        .section-content { margin-top: 15px; }
+        ul { list-style: none; padding: 0; }
+        ul li { background: #e8f6ff; border-left: 5px solid #aed6f1; margin-bottom: 10px; padding: 10px 15px; border-radius: 4px; }
+        .feedback-item { background: #fff; padding: 15px; border-radius: 6px; box-shadow: 0 1px 5px rgba(0,0,0,0.03); margin-bottom: 15px; }
+        .feedback-item h4 { color: #2980b9; margin-top: 0; }
+        .note { background-color: #fcf8e3; border-left: 5px solid #f0ad4e; padding: 15px; margin-top: 20px; border-radius: 5px; color: #8a6d3b; }
+        .emphasis { font-weight: bold; color: #e74c3c; }
+        .table-container { overflow-x: auto; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        nav { position: sticky; top: 0; background-color: #2c3e50; padding: 10px 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav .nav-list { display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; }
+        nav .nav-list li { margin: 0 15px; }
+        nav .nav-list a { color: #ecf0f1; text-decoration: none; padding: 8px 15px; border-radius: 5px; transition: background-color 0.3s ease; }
+        nav .nav-list a:hover, nav .nav-list a.active { background-color: #3498db; }
+        footer { text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid #eee; color: #7f8c8d; font-size: 0.9em; }
+
+        /* TailwindCSS base styles */
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .font-semibold { font-weight: 600; }
+        .mb-4 { margin-bottom: 1rem; }
+        .p-4 { padding: 1rem; }
+        .border { border-width: 1px; }
+        .rounded-md { border-radius: 0.375rem; }
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .bg-white { background-color: #fff; }
+        .bg-gray-100 { background-color: #f3f4f6; }
+        .text-gray-900 { color: #111827; }
+        .text-gray-700 { color: #374151; }
+        .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 1rem; }
+        .flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .items-center { align-items: center; }
+        .flex-col { flex-direction: column; }
+        .gap-4 { gap: 1rem; }
+        .w-full { width: 100%; }
+        .max-w-md { max-width: 28rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .hover\:bg-blue-600:hover { background-color: #2563eb; }
+        .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
+        .focus\:ring-2:focus { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); }
+        .focus\:ring-blue-500:focus { --tw-ring-color: #3b82f6; }
+        .focus\:ring-offset-2:focus { --tw-ring-offset-width: 2px; }
+        .text-center { text-align: center; }
+        .text-blue-500 { color: #3b82f6; }
+        .text-white { color: #fff; }
+        .bg-blue-500 { background-color: #3b82f6; }
+        .border-gray-300 { border-color: #d1d5db; }
+        .border-b { border-bottom-width: 1px; }
+        .block { display: block; }
+        .cursor-pointer { cursor: pointer; }
+        .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .duration-300 { transition-duration: 300ms; }
+        .ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+        .sticky { position: sticky; }
+        .top-0 { top: 0px; }
+        .z-1000 { z-index: 1000; }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .mt-8 { margin-top: 2rem; }
     </style>
 </head>
-<body class="antialiased">
-    <header class="bg-A87C5A text-white py-10 text-center shadow-md">
-        <h1 class="text-4xl md:text-5xl font-bold">프로젝트 여백 0기 5주차 스터디</h1>
-        <p class="text-xl md:text-2xl mt-3 opacity-90">연기 성장을 위한 핵심 정리</p>
-    </header>
-
-    <nav id="mainNav" class="sticky-nav">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-center space-x-2 sm:space-x-4 md:space-x-6 py-3 overflow-x-auto">
-                <a href="#section1" class="nav-link px-2 py-2 text-sm sm:text-base">핵심 원칙</a>
-                <a href="#section2" class="nav-link px-2 py-2 text-sm sm:text-base">무대 vs 매체</a>
-                <a href="#section3" class="nav-link px-2 py-2 text-sm sm:text-base">팀별 피드백</a>
-                <a href="#section4" class="nav-link px-2 py-2 text-sm sm:text-base">공통 기술</a>
-                <a href="#section5" class="nav-link px-2 py-2 text-sm sm:text-base">연기 철학</a>
-                <a href="#section6" class="nav-link px-2 py-2 text-sm sm:text-base">마지막 메시지</a>
-                <a href="#section7" class="nav-link px-2 py-2 text-sm sm:text-base">다음 준비</a>
-            </div>
-        </div>
+<body class="bg-gray-100 text-gray-900">
+    <nav id="mainNav" class="bg-blue-500 text-white p-4 shadow-md sticky top-0 z-1000">
+        <ul class="nav-list flex justify-center space-x-4">
+            <li><a href="#intro" class="p-2 rounded-md hover:bg-blue-600 transition-colors duration-300 ease-in-out">시작 전 공통 피드백</a></li>
+            <li><a href="#acting-types" class="p-2 rounded-md hover:bg-blue-600 transition-colors duration-300 ease-in-out">무대 vs 매체 & 사실주의</a></li>
+            <li><a href="#team-feedback" class="p-2 rounded-md hover:bg-blue-600 transition-colors duration-300 ease-in-out">팀별 피드백</a></li>
+            <li><a href="#common-skills" class="p-2 rounded-md hover:bg-blue-600 transition-colors duration-300 ease-in-out">공통 연기 기술</a></li>
+            <li><a href="#philosophy" class="p-2 rounded-md hover:bg-blue-600 transition-colors duration-300 ease-in-out">연기 철학</a></li>
+            <li><a href="#conclusion" class="p-2 rounded-md hover:bg-blue-600 transition-colors duration-300 ease-in-out">마지막 메시지</a></li>
+            <li><a href="#next-session" class="p-2 rounded-md hover:bg-blue-600 transition-colors duration-300 ease-in-out">다음 회차 준비</a></li>
+        </ul>
     </nav>
 
-    <main class="container mx-auto px-4 py-12">
-        
-        <section id="section1" class="card">
-            <h2 class="section-title">1. 스터디 시작 전 공통 피드백</h2>
-            <p class="mb-6 text-lg">이번 스터디 시작 전, 배우가 연습에 임하는 태도에 대한 핵심 개념들을 다시 한번 강조했습니다. 이 원칙들을 마음속에 새기고 연습에 임하는 것이 중요합니다.</p>
-            <div class="space-y-4">
-                <div class="p-4 border border-D4BBAA rounded-lg bg-F8F3ED">
-                    <h3 class="text-xl font-semibold text-A87C5A mb-2">감정은 행동에서 나옵니다.</h3>
-                    <p>배우는 감정을 직접 '표현'하기보다, 인물의 목적과 상황에 맞는 '행동'을 수행할 때 감정이 자연스럽게 드러나도록 해야 합니다. 모든 행동에는 명확한 이유가 있어야 하며, 대사는 그 행동을 위한 수단입니다.</p>
-                </div>
-                <div class="p-4 border border-D4BBAA rounded-lg bg-F8F3ED">
-                    <h3 class="text-xl font-semibold text-A87C5A mb-2">연기는 리액션의 연속입니다.</h3>
-                    <p>상대방과의 상호작용이 연기의 핵심입니다. 살아있는 반응을 통해 극이 전개됩니다.</p>
-                </div>
-                <div class="p-4 border border-D4BBAA rounded-lg bg-F8F3ED">
-                    <h3 class="text-xl font-semibold text-A87C5A mb-2">'나'를 내려놓고 인물로 살아야 합니다.</h3>
-                    <p>자기 의식이 개입되면 '보여주는 연기'가 됩니다. 인물로서 상황과 관계에 온전히 집중하여 감정이 '자연스럽게 보여지는 연기'를 목표로 해야 합니다.</p>
-                </div>
+    <div class="container bg-white my-8 p-8 rounded-lg shadow-lg">
+        <h1 class="text-4xl font-bold text-center mb-10">프로젝트 여백 0기 5주차 스터디 정리</h1>
+
+        <section id="intro" class="mb-8 p-6 border-l-4 border-blue-500 bg-gray-100 rounded-md">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">스터디 시작 전 공통 피드백</h2>
+            <div class="space-y-4 text-gray-700">
+                <p>
+                    <span class="font-semibold text-lg">인물(character)과 사건(event):</span> 연극에서는 인물과 사건이 중요합니다. 인물은 '인간'을 보여주는 것이고, 사건은 그 인간이 어떤 '선택'을 하는지를 보여줍니다. 배우는 이러한 인물과 사건을 통해 관객과 소통합니다.
+                </p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><span class="font-semibold">감정은 행동으로부터:</span> 감정은 인물이 특정 상황과 목적에 따라 행동할 때 자연스럽게 나오는 것입니다. 배우가 억지로 감정을 만들어서 보여주려고 하면, 오히려 부자연스러워 보일 수 있습니다. (예: 인물의 슬픔을 보여주기 위해 억지로 우는 시늉을 하기보다, 인물이 슬퍼서 하는 '행동'에 집중하면 자연스럽게 감정이 드러납니다.)</li>
+                    <li><span class="font-semibold">대본을 읽는 시선:</span> 대본을 읽을 때 단순한 대사 전달을 넘어, 각 대사 속에서 인물이 어떤 목적을 가지고 어떤 행동을 하는지를 파악하는 것이 중요합니다.</li>
+                </ul>
             </div>
-            <p class="mt-6 text-center font-medium">이 내용들을 매주 연습 전에 확인하고 적용하려는 의지가 연기 발전의 가장 중요한 준비입니다.</p>
         </section>
 
-        <section id="section2" class="card">
-            <h2 class="section-title">🎭 무대 연기와 매체 연기의 차이 & 사실주의 연기</h2>
-            <p class="mb-6 text-lg">연기의 기본적인 이해를 돕기 위해 무대 연기와 매체 연기의 주요 차이점을 정리하고, 우리가 추구해야 할 사실주의 연기에 대해 논의했습니다.</p>
-            
-            <h3>무대 연기와 매체 연기의 차이 (개념 정리)</h3>
-            <p class="mb-4">같은 '연기'라는 큰 틀 안에 있지만, 각각의 환경과 전달 방식에 따라 요구되는 기술과 표현 방식에서 큰 차이를 보입니다. 이를 이해하는 것은 배우가 어떤 매체에서 연기하든 자신의 연기를 유연하게 조절하는 데 필수적입니다.</p>
-            <div class="overflow-x-auto mb-8">
-                <table class="min-w-full w-full">
-                    <thead>
-                        <tr>
-                            <th>구분</th>
-                            <th>무대 연기 (연극)</th>
-                            <th>매체 연기 (영화, 드라마 등)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>감정 표현</td><td>더 크게, 명확하게 (객석 끝까지 전달되도록)</td><td>작고 미세하게 (카메라가 인물의 섬세한 감정을 포착)</td></tr>
-                        <tr><td>동작 크기</td><td>전체 관객에게 보이도록 확장된 움직임</td><td>카메라 프레임 내에서 자연스럽고 현실적인 움직임</td></tr>
-                        <tr><td>발성/호흡</td><td>또렷하고 힘 있게 (대사 전달력 중요)</td><td>일상처럼 부드럽고 자연스럽게 (마이크가 소리 포착)</td></tr>
-                        <tr><td>리듬</td><td>연극적 리듬감, 극의 흐름에 따른 고조와 이완</td><td>일상 언어에 가까운 현실적 리듬</td></tr>
-                        <tr><td>시선 처리</td><td>객석을 포함한 가상의 4번째 벽 의식, 넓은 시야</td><td>카메라 렌즈 또는 상대 배우에게 집중, 좁은 시야</td></tr>
-                        <tr><td>에너지</td><td>지속적이고 고조된 에너지, 순간적인 폭발력</td><td>섬세하고 절제된 에너지, 미묘한 감정 변화 중요</td></tr>
-                    </tbody>
-                </table>
-            </div>
+        <section id="acting-types" class="mb-8 p-6 border-l-4 border-blue-500 bg-gray-100 rounded-md">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">무대 연기 vs 매체 연기 & 사실주의 연기</h2>
+            <div class="space-y-4 text-gray-700">
+                <h3 class="text-xl font-semibold text-blue-600">무대 연기 vs 매체 연기</h3>
+                <div class="table-container">
+                    <table class="w-full border border-gray-300 rounded-md shadow-sm">
+                        <thead>
+                            <tr>
+                                <th class="p-4 border-b">구분</th>
+                                <th class="p-4 border-b">무대 연기</th>
+                                <th class="p-4 border-b">매체 연기</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-4 border-b font-semibold">전달 방식</td>
+                                <td class="p-4 border-b">육체/목소리/호흡을 크게 확장하여 객석 끝까지 전달</td>
+                                <td class="p-4 border-b">일상적인 말과 행동, 카메라와 마이크가 포착</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 border-b font-semibold">표현의 크기</td>
+                                <td class="p-4 border-b">크게 표현해도 어색하지 않음 (오히려 명확해야 함)</td>
+                                <td class="p-4 border-b">작은 표정, 미세한 떨림, 호흡으로도 감정 전달</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 border-b font-semibold">예시</td>
+                                <td class="p-4 border-b">연극 '햄릿'에서 햄릿의 독백 (웅장하고 파워풀하게)</td>
+                                <td class="p-4 border-b">영화 '미나리'에서 윤여정 배우의 표정 연기 (섬세하고 자연스럽게)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-            <h3>💬 사실주의 연기란?</h3>
-            <p>우리가 흔히 이야기하는 '사실주의 연기'는 단순히 현실을 '복제'하는 것이 아닙니다. 관객이 마치 실제 현실처럼 느끼게 하기 위해 필요한 <strong>'디테일하게 구성된 연기'</strong>입니다.</p>
-            <p class="mt-2">무대 위에서 편하게 말하는 것과, '편하게 보이는 연기'는 전혀 다른 기술과 의도를 필요로 합니다. 배우는 '연기하고 있음'을 의식하지 않고, 인물로서 그 상황과 감정에 몰입했을 때 비로소 관객은 그것을 '진짜'처럼 받아들이게 됩니다. 이는 꾸며낸 것이 아닌, 인물의 내면에서 자연스럽게 우러나오는 행동과 감정을 통해 구현됩니다.</p>
+                <h3 class="text-xl font-semibold text-blue-600 mt-6">사실주의 연기: '디테일하게 구성된 연기'</h3>
+                <p class="mt-4">
+                    사실주의 연기는 단순히 현실을 복제하는 것이 아닙니다. 배우가 인물의 상황과 감정에 몰입하여, 관객이 '실제 현실처럼' 느끼도록 치밀하게 계산된 디테일과 자연스러운 행동을 통해 연기를 구성하는 것입니다.
+                </p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><span class="font-semibold">관객에게 보여주는 연기 vs 배우가 '되는' 연기:</span> 무대 위에서 '편하게 말하는 것'과 '편하게 보이는 연기'는 다릅니다. 후자는 배우가 인물이 되어 상황 속에 온전히 존재할 때 관객에게 '보여지는' 것입니다.</li>
+                    <li><span class="font-semibold">리액션 타이밍:</span> 실제 대화처럼 상대방의 말이 끝나기 전에 즉각적으로 반응하는 살아있는 리액션이 중요합니다. 그래야 연기가 살아있고 현실감이 있습니다.</li>
+                </ul>
+            </div>
         </section>
 
-        <section id="section3" class="card">
-            <h2 class="section-title">2. 팀별 피드백 정리</h2>
-            <p class="mb-6 text-lg">각 팀의 연습 내용에 대한 구체적인 피드백을 통해 개선점과 발전 방향을 모색했습니다.</p>
-            <div class="space-y-8">
-                <div>
-                    <h3>[피아노 레슨 팀] – 블로킹 및 분석 내용 요약 (「피아노 레슨, 그 후」)</h3>
-                    <h4>연습 방식과 구조</h4>
-                    <ul class="list-disc"><li>매주 처음부터 반복: 단막극의 특성상 장면별로 끊어서 연습하기보다는, 매주 처음부터 전체 대본을 반복하며 진행하는 방식이 더 효과적입니다. 이렇게 함으로써 전체 흐름과 인물의 감정선을 놓치지 않고 연결성을 확보할 수 있습니다.</li></ul>
-                    
-                    <h4>타카코 (마치다 타카코) – 표현과 감정의 밀도</h4>
-                    <ul class="list-disc">
-                        <li>사사키를 마주했을 때의 어색함: 사사키 선생님을 마주했을 때의 어색함을 더 분명하게 표현해도 좋습니다. 단순히 어색하다는 감정을 숨기려 하기보다는, 숨기려는 감정 그 자체가 관객에게 드러나야 합니다.</li>
-                        <li>감정의 드러냄: 실제 현실에서 우리는 감정을 숨기려 하지만, 무대에서는 그 '숨기려는 노력'과 그럼에도 불구하고 '새어 나오는 감정'을 관객이 볼 수 있어야 합니다. (타카코가 사사키에게 오랜만에 만났을 때의 어색함, 어쩌면 불편함, 그러나 애써 감추는 모습들이 명확하게 드러나야 합니다.)</li>
+        <section id="team-feedback" class="mb-8 p-6 border-l-4 border-blue-500 bg-gray-100 rounded-md">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">팀별 피드백</h2>
+            <div class="space-y-4 text-gray-700">
+                <div class="feedback-item bg-white p-4 rounded-md shadow-sm">
+                    <h3 class="text-xl font-semibold text-blue-600">피아노 수업</h3>
+                    <p class="mt-2"><span class="font-semibold">타카코 (T.K.):</span></p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>등장 시, 사사키 선생님을 만났을 때 숨기려는 감정(어색함, 불편함 등)과 그럼에도 새어 나오는 감정의 '틈'을 보여주세요. 너무 완벽하게 숨기기보다, '숨기려는 노력'이 관객에게 보여야 합니다.</li>
+                        <li>'내가 이상한 아이인가요?' 대사에서, 질문의 뉘앙스를 좀 더 다르게 가져가 볼 수 있습니다. (예: 진심으로 궁금해하는 물음, 살짝 자조적인 물음 등)</li>
                     </ul>
-
-                    <h4>사사키 (사사키 타츠야) – 표현의 스펙트럼 넓히기</h4>
-                    <ul class="list-disc">
-                        <li>표현 욕심: 지금까지보다 표현 욕심을 더 가져도 괜찮습니다. 무대 연기는 일상 연기와 다릅니다.</li>
-                        <li>캐릭터 나이 및 위계 구조 인식: 사사키 캐릭터의 나이 설정과 타카코와의 '제자 vs. 선생'이라는 위계 구조를 명확히 인식해야 합니다. 이 관계성은 시각적으로도 표현되어야 합니다. (사사키가 타카코를 대하는 태도, 말투, 시선 등에서 드러나야 합니다.)</li>
-                        <li>감정의 크레셴도: 대화 중 감정의 '크레셴도 구간' (점점 쌓이는 감정)을 세분화해야 합니다. 놀람, 슬픔, 분노와 같은 1차원적인 감정만을 표현하는 것이 아니라, 복합적이고 미묘하게 변화하는 감정의 스펙트럼을 보여줄 수 있도록 분석해야 합니다.</li>
+                    <p class="mt-2"><span class="font-semibold">사사키 (S.S.K.):</span></p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>감정의 '크레셴도' 구간을 표현할 때, 1차원적인 감정(예: 놀람->슬픔->분노)으로 나열하기보다, 복합적이고 미묘하게 변화하는 감정의 단계를 디테일하게 보여주는 것이 중요합니다.</li>
+                        <li>예를 들어, '당황했지만 애써 침착하려는 노력 -> 미세한 불안감 -> 그럼에도 상황을 이끌어가려는 의지' 와 같이 세분화된 감정의 흐름을 생각해보세요.</li>
                     </ul>
                 </div>
-                <hr class="my-8 border-D4BBAA">
-                <div>
-                    <h3>[흔해빠진 독서 팀] 피드백 요약 (「흔해빠진 독서」)</h3>
-                    <h4>전반적인 변화</h4>
-                    <ul class="list-disc"><li>두 분 모두 지난 연습보다 표현력이 훨씬 좋아졌습니다. 특히 앞 팀(피아노 레슨)의 연습을 보고 난 뒤 진행해서인지, 표현 시도가 더욱 적극적이었던 점이 좋았습니다.</li></ul>
-
-                    <h4>혜인 (언니 역)</h4>
-                    <ul class="list-disc"><li>과거 회상 대사의 상상력: 과거 회상 대사("그 옛날 사람, 탐정 같았던 건 모르지?" 등)를 할 때 상상력이 다소 부족해 보였습니다. 감정을 말로 설명하려 하기보다, 그 과거의 실제 장면이 머릿속에 생생하게 그려져야 합니다. '메소드 연기'의 중요한 요소 중 하나인 '감정 이입'과 '상상력'을 활용하여, 언니가 과거를 회상할 때 단순히 대사를 읊는 것이 아니라, 마치 그 상황이 눈앞에 펼쳐지는 것처럼 생생하게 상상하고 느껴야 합니다. 이렇게 상상된 장면이 연기하는 순간의 감정과 반응에 영향을 미쳐야 합니다.</li></ul>
-
-                    <h4>예진 (동생 역)</h4>
-                    <ul class="list-disc">
-                        <li>짧은 대사의 호흡: "야." 같은 짧은 대사도 지금은 좋지만, 여기에 캐릭터의 호흡을 함께 넣으면 더욱 효과적일 수 있습니다. (동생의 심리 상태에 따라 답답함, 짜증, 체념 등 다양한 호흡이 실릴 수 있습니다.)</li>
-                        <li>리액션 타이밍: 리액션 타이밍이 늦는 경향이 보였습니다. 현실 대화처럼 상대방의 말이 끝나기 전에도 즉각적인 반응이 보이거나, 대사 중간에라도 자연스럽게 반응할 수 있도록 연습해 주세요.</li>
-                    </ul>
-                    
-                    <h4>무대 활용과 동선</h4>
-                    <ul class="list-disc"><li>자유로운 무대 활용: 모든 대사를 앉아서 조용히 할 필요는 없습니다. 무대가 넓다면 그 공간을 적극적으로 사용해야 합니다. 앉는 것 또한 명확한 이유가 있어야 합니다. 무의식적으로 움직임을 피하면 오히려 부자연스럽게 보일 수 있습니다. (인물들이 움직임을 통해 감정이나 상황을 표현하는 것이 중요합니다.)</li></ul>
-
-                    <h4>대사/상징 분석 필요</h4>
-                    <ul class="list-disc">
-                        <li>'책'에 대한 태도 차이: 극 중 '책'에 대한 언니와 동생의 태도 차이를 더욱 깊이 있게 분석해야 합니다. 이는 단순히 책을 읽고 안 읽고의 문제가 아니라, 두 인물의 삶의 방식, 가치관, 그리고 엄마와의 관계에 대한 상징일 수 있습니다. 극 전체의 맥락 안에서 이 상징적 의미를 해석해봐야 합니다.</li>
-                        <li>대사의 의도와 뉘앙스: 대사들이 상징이나 복선으로 작용할 가능성이 있습니다. "우리 이제······, 엄마 보내주자." (대본 3페이지)와 같은 대사들은 표면적인 의미 이상의 깊은 의도와 뉘앙스를 담고 있습니다. 이 대사가 극의 흐름에서 어떤 역할을 하는지, 그리고 인물의 내면에서 어떤 감정 변화를 통해 나오는 것인지 심층적으로 분석해야 합니다.</li>
-                    </ul>
+                <div class="feedback-item bg-white p-4 rounded-md shadow-sm">
+                    <h3 class="text-xl font-semibold text-blue-600">Common Reading (혜인/언니)</h3>
+                    <p class="mt-2">
+                        <span class="font-semibold">혜인 (언니 역):</span> '그 옛날 사람, 탐정 같았던 건 모르지?' 이 대사를 할 때, 단순히 과거를 회상하는 것을 넘어, 마치 지금 눈앞에 그 장면이 펼쳐지는 것처럼 생생하게 상상하고 연기해보세요. 감정은 그 상상된 장면에서 자연스럽게 파생될 것입니다.
+                    </p>
                 </div>
             </div>
         </section>
 
-        <section id="section4" class="card">
-            <h2 class="section-title">3. 연기 기술 피드백 – 전체 배우 공통</h2>
-            <p class="mb-6 text-lg">모든 배우에게 공통적으로 적용될 수 있는 연기 기술에 대한 조언과 방향성을 제시했습니다.</p>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <h3>주요 기술 포인트</h3>
-                    <ul class="list-disc space-y-3">
-                        <li><strong>대사와 행동의 유기성:</strong> 행동과 대사를 엄격하게 구분할 필요가 없습니다. '대사 후에 행동', 혹은 '행동 후에 대사'라는 순서를 고정할 필요가 없습니다. 예를 들어, 타카코가 자리에 앉으면서 자연스럽게 사쿠라 이야기를 꺼내는 것이 더 자연스럽고 유기적으로 보일 수 있습니다.</li>
-                        <li><strong>애드립과 맥락:</strong> 감탄사나 애드립을 추가할 때는 반드시 캐릭터의 성격과 현재 상황의 맥락에 맞게 신중하게 선택해야 합니다. 예를 들어, 극의 분위기와 동떨어진 "대박인데?"와 같은 표현은 전체 톤을 벗어날 수 있습니다.</li>
-                        <li><strong>리액션의 타이밍:</strong> 상대방 대사가 완전히 끝난 후에 반응하는 것은 현실적이지 않습니다. 실제 대화처럼, 상대방의 말이 끝나기 전에도 즉각적인 반응이 보이거나, 말 도중에도 리액션이 드러날 수 있어야 합니다.</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>연습 중 태도와 방향</h3>
-                    <ul class="list-disc space-y-3">
-                        <li><strong>상황과 상대에게 집중:</strong> 연습 중에는 대사 암기나 정확도에만 집중하기보다, 주어진 상황과 상대 배우에게 온전히 집중하는 것이 훨씬 더 중요합니다.</li>
-                        <li><strong>블로킹의 중요성:</strong> 지금은 '블로킹', 즉 인물들이 움직이며 상황을 만들어가는 작업에 집중하는 단계이지, 완성된 연기를 만드는 단계가 아닙니다.</li>
-                        <li><strong>읽기가 아닌 연기:</strong> "글에 집중하는 순간, 연기는 읽기로 바뀐다." 이 점을 항상 명심해야 합니다. 대본을 '읽는' 것이 아니라, 인물로서 '살아내는' 연기를 해야 합니다.</li>
-                    </ul>
-                    <div class="mt-6 p-4 border border-D4BBAA rounded-lg bg-F8F3ED">
-                        <h4 class="text-A87C5A !mt-0">연습 중 집중 요소 흐름</h4>
-                        <div class="space-y-1 mt-2">
-                            <div class="flow-diagram-step">1. 주어진 상황에 집중</div>
-                            <div class="flow-diagram-arrow">⬇️</div>
-                            <div class="flow-diagram-step">2. 상대 배우에게 집중</div>
-                            <div class="flow-diagram-arrow">⬇️</div>
-                            <div class="flow-diagram-step">3. (결과) 자연스러운 리액션과 행동</div>
-                            <p class="text-center text-sm mt-2 text-gray-600">(❌ 대사 암기나 정확도에만 매몰되지 않기)</p>
-                        </div>
-                    </div>
+        <section id="common-skills" class="mb-8 p-6 border-l-4 border-blue-500 bg-gray-100 rounded-md">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">공통 연기 기술 피드백</h2>
+            <div class="space-y-4 text-gray-700">
+                <h3 class="text-xl font-semibold text-blue-600">반응/리액션</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>상대방의 대사가 끝나기 전에 즉각적으로 반응하는 '살아있는 리액션'이 중요합니다. 그래야 연기가 대화처럼 자연스럽고 현실감이 있습니다.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-blue-600 mt-6">블로킹</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>블로킹은 단순히 동선을 짜는 것을 넘어, '인물들이 움직이며 주어진 상황을 만들어가고, 그 상황 속에서 살아가는 과정'을 탐구하는 작업입니다.</li>
+                    <li>현재 단계에서는 완성도 높은 연기를 만들기보다, 움직임을 통해 인물들이 어떤 상황에 놓이는지, 그 상황에서 어떻게 느끼고 반응하는지를 찾아내는 데 집중해주세요.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="philosophy" class="mb-8 p-6 border-l-4 border-blue-500 bg-gray-100 rounded-md">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">연기 철학: '보여주는 연기' vs '보여지는 연기'</h2>
+            <div class="space-y-4 text-gray-700">
+                <p>
+                    많은 배우들이 관객에게 '보여주려고' 애쓰지만, 진정 위대한 연기는 배우가 인물로서 완벽하게 '존재'할 때 관객에게 '보여지는' 연기입니다. 감정을 억지로 만들어내기보다, 인물의 상황, 목적, 행동에 충실할 때 감정은 자연스럽게 드러납니다.
+                </p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>배우는 '인물'이 되고, 인물이 되는 것을 통해 관객에게 '보여진다'는 개념을 이해하고 연습해야 합니다.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="conclusion" class="mb-8 p-6 border-l-4 border-blue-500 bg-gray-100 rounded-md">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">마지막 강조 메시지</h2>
+            <div class="space-y-4 text-gray-700">
+                <p>
+                    <span class="font-semibold text-lg">"예술 수업은 가르치는 것이 아니라, 보여준 것을 보고 보완해주는 것이다."</span>
+                </p>
+                <p>
+                    이 스터디에서 저(강사)는 정답을 주거나 연기를 만들어주는 사람이 아닙니다. 대표님들 스스로가 인물을 연구하고, 대본을 분석하며, 자신만의 해석과 고민이 담긴 '결과물'을 적극적으로 가져와 보여주는 것이 중요합니다. 그래야 저와 다른 팀원들이 그 결과물을 보고 보완하고, 더 나은 방향을 함께 찾아갈 수 있습니다.
+                </p>
+                <div class="note">
+                    <p><span class="emphasis">무기력 극복 아이스브레이킹:</span> 창의성은 '떠오른 첫 번째 생각에서 더 나아가는 것'입니다. 얕고 단순한 조언에 머물지 않고, 깊이 있는 질문과 생각을 통해 한 단계 더 발전할 수 있도록 함께 노력합시다.</p>
                 </div>
             </div>
         </section>
 
-        <section id="section5" class="card">
-            <h2 class="section-title">4. 연기 철학 강조 – "보여주는 것 vs 보여지는 것"</h2>
-            <p class="mb-6 text-lg">진정한 연기에 도달하기 위한 핵심적인 연기 철학, '보여주는 연기'와 '보여지는 연기'의 차이점을 깊이 있게 다루었습니다.</p>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="p-6 rounded-lg border-2 border-A87C5A bg-F8F3ED">
-                    <h3 class="text-A87C5A">보여주는 연기 👎</h3>
-                    <p>감정을 의도적으로 드러내고, 배우 자신의 자의식이 개입되며, 연기의 결과를 만들어내려 합니다. 관객에게 부자연스럽게 느껴질 수 있습니다.</p>
-                </div>
-                <div class="p-6 rounded-lg border-2 border-A87C5A bg-F8F3ED">
-                    <h3 class="text-A87C5A">보여지는 연기 👍</h3>
-                    <p>감정이 자연스럽게 드러나고, 오직 상황과 인물 간의 관계에 집중하며, 연기하는 과정 속에서 결과가 자연스럽게 발생합니다. 이것이 우리가 추구해야 할 목표입니다.</p>
-                </div>
+        <section id="next-session" class="mb-8 p-6 border-l-4 border-blue-500 bg-gray-100 rounded-md">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">다음 회차 준비 사항</h2>
+            <div class="space-y-4 text-gray-700">
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><span class="font-semibold">대본 분석 및 연습:</span> 다음 스터디 대본을 충분히 분석하고, 인물의 목적과 행동에 집중하여 연기를 연습해 오세요.</li>
+                    <li><span class="font-semibold">'보여지는 연기' 탐구:</span> 자신의 대사 속에서 '보여주는 연기'가 아닌 '보여지는 연기'를 할 수 있는 순간들을 찾아보고, 이를 어떻게 구현할지 고민하고 연습해 오세요.</li>
+                </ul>
             </div>
-            <p class="highlight-quote">
-                "우리의 목표는 감정을 '보이게 하려는' 것이 아니라, 그 상황에 인물로서 집중했을 때 감정이 '자연스럽게 보여지는 것'이 되어야 합니다. 이 지점이야말로 진정한 연기적 몰입과 관객의 공감을 이끌어내는 핵심입니다."
-            </p>
         </section>
+    </div>
 
-        <section id="section6" class="card">
-            <h2 class="section-title">6. 마지막 강조 메시지</h2>
-            <p class="mb-6 text-lg">스터디를 마무리하며, 배우로서 지속적인 성장을 위한 마음가짐과 주체적인 자세를 강조했습니다.</p>
-            <p class="highlight-quote">
-                "연기란 '만드는 것'이 아니라, '살아내는 것'입니다."
-            </p>
-            <p class="mb-4">블로킹은 단순히 동선을 정하는 것을 넘어, 인물이 그 상황 속에서 움직이며 살아가는 과정을 만들어가는 작업입니다. 여러분은 제가 혹은 제가 이끄는 스터디가 연기를 '만들어주는 사람'이라고 생각해서는 안 됩니다. 배우 스스로가 인물을 연구하고, 대본을 분석하며, 스스로의 해석과 고민을 가지고 연습에 임해야 합니다. 그리고 그 '결과'를 가지고 와서 저와 함께 디렉션을 받고, 더 나은 방향으로 다듬어가는 것입니다.</p>
-            <p class="text-xl font-semibold text-A87C5A p-6 bg-F8F3ED rounded-lg border border-D4BBAA text-center">
-                "예술 수업은 가르치는 것이 아니라, 보여준 것을 보고 보완해주는 것이다."
-            </p>
-            <p class="mt-6">여러분이 보여준 것에 대해 제가 함께 고민하고 보완점을 제시할 때, 진정한 성장이 이루어집니다. 스스로 탐구하고, 그 결과물을 가지고 연습에 임하는 주체적인 배우가 되기를 바랍니다.</p>
-        </section>
-
-        <section id="section7" class="card">
-            <h2 class="section-title">7. 다음 회차 준비 사항</h2>
-            <p class="mb-6 text-lg">오늘 논의된 내용을 바탕으로 다음 스터디를 위해 준비해야 할 사항들입니다.</p>
-            <ol class="list-decimal space-y-3">
-                <li>각 팀은 오늘 받은 피드백을 바탕으로 대본과 캐릭터를 다시 한번 깊이 있게 분석해 주세요.</li>
-                <li>특히 오늘 강조된 '감정은 행동에서 나온다', '리액션의 타이밍', '무대 활용' 등의 개념을 자신의 대본에 어떻게 적용할지 구체적으로 고민해 와야 합니다.</li>
-                <li>다음 주에는 각 팀의 대본 분석 내용을 간략하게라도 정리해서 공유할 시간을 가질 예정입니다. (예: 인물의 초목표, 각 장면의 목적, 주요 행동 분석 등)</li>
-                <li>개인별로 자신의 대사 속에서 '보여주는 연기'가 아닌 '보여지는 연기'를 할 수 있는 순간들을 찾아보고, 이를 어떻게 구현할지 연습해 오세요.</li>
-            </ol>
-        </section>
-    </main>
-
-    <footer class="text-center py-8 bg-4A4A4A text-FDFBF7 text-sm">
-        <p>&copy; 2025 프로젝트 여백. 모든 배우들의 빛나는 성장을 응원합니다.</p>
+    <footer class="text-gray-700 text-sm mt-8 p-4 border-t border-gray-300 text-center">
+        © 2024 프로젝트 여백. All rights reserved.
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const navLinks = document.querySelectorAll('#mainNav a.nav-link');
-            const sections = document.querySelectorAll('main section[id]');
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('#mainNav .nav-list a');
 
             function changeNav() {
                 let index = sections.length;
