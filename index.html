@@ -426,16 +426,19 @@
                 card.addEventListener('click', function () {
                     const sessionId = this.getAttribute('data-session-id');
                     const detailElement = document.getElementById(sessionId + '-detail');
+                    console.log(`클릭된 주차: ${sessionId}, 상세 내용 요소:`, detailElement); // 디버깅 메시지 추가
                     if (detailElement) {
                         // Close all other session details in this term
                         // (Optional: if you want to close details from other terms, you'd need a broader selector)
                         detailElement.parentElement.querySelectorAll('.session-detail').forEach(detail => {
                             if (detail.id !== (sessionId + '-detail')) {
                                 detail.classList.remove('active');
+                                console.log(`다른 상세 내용 닫음: ${detail.id}`); // 디버깅 메시지 추가
                             }
                         });
                         // Toggle current session detail
                         detailElement.classList.toggle('active');
+                        console.log(`현재 상세 내용 상태: ${detailElement.classList.contains('active') ? '열림' : '닫힘'}`); // 디버깅 메시지 추가
                     }
                 });
             });
